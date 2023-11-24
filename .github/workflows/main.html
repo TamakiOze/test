@@ -1,0 +1,57 @@
+# Importing necessary libraries to create a simple HTML with embedded JavaScript
+from IPython.core.display import HTML
+
+# HTML and JavaScript code
+html_code = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Energy Ball</title>
+    <style>
+        body, html { margin: 0; height: 100%; overflow: hidden; }
+        canvas { width: 100%; height: 100%; background: black; }
+    </style>
+</head>
+<body>
+    <canvas id="energyCanvas"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var canvas = document.getElementById('energyCanvas');
+            var ctx = canvas.getContext('2d');
+            var ball = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: 50, color: '#00FF00' };
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            function drawBall() {
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                ctx.fillStyle = ball.color;
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            function update() {
+                drawBall();
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                update();
+            }
+
+            animate();
+
+            window.addEventListener('mousemove', function(event) {
+                ball.x = event.clientX;
+                ball.y = event.clientY;
+            });
+        });
+    </script>
+</body>
+</html>
+"""
+
+# Displaying the HTML in the notebook
+HTML(html_code)
